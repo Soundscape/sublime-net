@@ -33,5 +33,9 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
+    "autobahn": "^0.9.6",
+    "lodash": "^3.8.0",
+    "sublime-core": "0.0.20",
+    "when": "^3.7.3"
   }
 }

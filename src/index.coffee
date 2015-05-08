@@ -1,2 +1,2 @@
 module.exports =
-  Broker: require './broker'
+  Broker: require './modules/broker'
