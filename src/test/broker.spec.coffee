@@ -1,7 +1,7 @@
 lib = require '../'
 
 describe 'Broker test suite', ()  ->
-  create = () -> new lib.Broker 'ws://27.0.0.1:8080/ws', 'realm1'
+  create = () -> new lib.Broker 'ws://127.0.0.1:8080/ws', 'realm1'
 
   it 'should construct an instance', () ->
     instance = create()

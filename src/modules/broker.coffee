@@ -1,4 +1,4 @@
-Core = require 'sublime.core'
+Core = require 'sublime-core'
 autobahn = require 'autobahn'
 When = require 'when'
 _ = require 'lodash'
