@@ -1,0 +1,1 @@
+(function(){var e;e=require("../"),describe("Firebase test suite",function(){var t;return t=function(){return new e.Firebase("https://sublime-dev.firebaseio.com/")},it("should construct an instance",function(){var e;return e=t(),expect(e).not.toBeNull()})})}).call(this);
