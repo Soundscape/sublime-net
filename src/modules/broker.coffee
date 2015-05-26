@@ -113,7 +113,12 @@ states =
         return
       return
 
+# Provides WAMP functionality
 class Broker extends Core.Stateful
+  # Construct a new Broker
+  #
+  # @param [String] uri The URI to connect to
+  # @param [String] realm The WAMP realm
   constructor: (uri, realm) ->
     super(states)
 
@@ -125,41 +130,69 @@ class Broker extends Core.Stateful
       url: uri
       realm: realm
 
+  # Connect to the server
   connect: () ->
     dfr = When.defer()
     @apply 'connect', @, dfr
     dfr.promise
 
+  # Disconnect from the server
   disconnect: () ->
     dfr = When.defer()
     @apply 'disconnect', @, dfr
     dfr.promise
 
+  # Subscribe to a channel
+  #
+  # @param [String] channel The name of the channel
+  # @param [Function] fn The function to handle inbound messages
   subscribe: (channel, fn) ->
     dfr = When.defer()
     @apply 'subscribe', @, channel, fn, dfr
     dfr.promise
 
+  # Unsubscribe from a channel
+  #
+  # @param [String] channel The name of the channel
+  # @param [Function] fn The specific handler to unsubscribe
   unsubscribe: (channel, fn) ->
     dfr = When.defer()
     @apply 'unsubscribe', @, channel, fn, dfr
     dfr.promise
 
+  # Publish a message to a channel
+  #
+  # @param [String] channel The name of the channel
+  # @param [Object] payload The message payload
+  # @param [Object] cfg Message specific configuration
   publish: (channel, payload, cfg) ->
     dfr = When.defer()
     @apply 'publish', @, channel, payload, cfg, dfr
     dfr.promise
 
+  # Register a function on the channel for RMI
+  #
+  # @param [String] channel The name of the channel
+  # @param [Function] fn The function to expose
+  # @param [Object] cfg Function specific configuration
   register: (channel, fn, cfg) ->
     dfr = When.defer()
     @apply 'register', @, channel, fn, cfg, dfr
     dfr.promise
 
+  # Unregister the RMI function
+  #
+  # @param [String] channel The name of the channel
   unregister: (channel) ->
     dfr = When.defer()
     @apply 'unregister', @, channel, dfr
     dfr.promise
 
+  # Invoke a RMI function
+  #
+  # @param [String] channel The name of the channel
+  # @param [Object] args the arguments to invoke the function
+  # @param [Object] cfg Invocation specific configuration
   call: (channel, args, cfg) ->
     dfr = When.defer()
     @apply 'call', @, channel, args, cfg, dfr
