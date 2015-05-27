@@ -2,6 +2,8 @@ Core = require 'sublime-core'
 autobahn = require 'autobahn'
 When = require 'when'
 _ = require 'lodash'
+Err = require 'sublime-error'
+Err.mixins.value()
 
 states =
   disconnected:
@@ -120,6 +122,9 @@ class Broker extends Core.Stateful
   # @param [String] uri The URI to connect to
   # @param [String] realm The WAMP realm
   constructor: (uri, realm) ->
+    Err.Throw.isUnspecified uri, 'WAMP URI'
+    Err.Throw.isUnspecified realm, 'WAMP realm'
+
     super(states)
 
     @channels = {}
@@ -147,6 +152,8 @@ class Broker extends Core.Stateful
   # @param [String] channel The name of the channel
   # @param [Function] fn The function to handle inbound messages
   subscribe: (channel, fn) ->
+    Err.Throw.isUnspecified channel, 'channel'
+
     dfr = When.defer()
     @apply 'subscribe', @, channel, fn, dfr
     dfr.promise
@@ -156,6 +163,8 @@ class Broker extends Core.Stateful
   # @param [String] channel The name of the channel
   # @param [Function] fn The specific handler to unsubscribe
   unsubscribe: (channel, fn) ->
+    Err.Throw.isUnspecified channel, 'channel'
+
     dfr = When.defer()
     @apply 'unsubscribe', @, channel, fn, dfr
     dfr.promise
@@ -166,6 +175,9 @@ class Broker extends Core.Stateful
   # @param [Object] payload The message payload
   # @param [Object] cfg Message specific configuration
   publish: (channel, payload, cfg) ->
+    Err.Throw.isUnspecified channel, 'channel'
+    Err.Throw.isNullOrUndefined payload, 'message payload'
+
     dfr = When.defer()
     @apply 'publish', @, channel, payload, cfg, dfr
     dfr.promise
@@ -176,6 +188,9 @@ class Broker extends Core.Stateful
   # @param [Function] fn The function to expose
   # @param [Object] cfg Function specific configuration
   register: (channel, fn, cfg) ->
+    Err.Throw.isUnspecified channel, 'channel'
+    Err.Throw.isNullOrUndefined fn, 'remote function'
+
     dfr = When.defer()
     @apply 'register', @, channel, fn, cfg, dfr
     dfr.promise
@@ -184,6 +199,8 @@ class Broker extends Core.Stateful
   #
   # @param [String] channel The name of the channel
   unregister: (channel) ->
+    Err.Throw.isUnspecified channel, 'channel'
+
     dfr = When.defer()
     @apply 'unregister', @, channel, dfr
     dfr.promise
@@ -194,6 +211,8 @@ class Broker extends Core.Stateful
   # @param [Object] args the arguments to invoke the function
   # @param [Object] cfg Invocation specific configuration
   call: (channel, args, cfg) ->
+    Err.Throw.isUnspecified channel, 'channel'
+
     dfr = When.defer()
     @apply 'call', @, channel, args, cfg, dfr
     dfr.promise

@@ -1,13 +1,6 @@
 Firebase = require 'firebase'
-
-validate = (val, fn, msg) ->
-  if fn(val)
-    console.error msg
-    throw new Error msg
-
-isNull = (val, name) ->
-  fn = (v) -> !v
-  validate val, fn, "*#{name}* may not be NULL"
+Err = require 'sublime-error'
+Err.mixins.value()
 
 # Wrapper around the Firebase API
 class FirebaseContext
@@ -15,6 +8,8 @@ class FirebaseContext
   #
   # @param [String] url The URL to connect to
   constructor: (url) ->
+    Err.Throw.isUnspecified url, 'Firebase URL'
+
     @ref = new Firebase url
 
   # Set the data at the specified path
@@ -22,8 +17,8 @@ class FirebaseContext
   # @param [String] path The partial path at which to store data
   # @param [Object] data The data to store
   set: (path, data) ->
-    isNull path, 'path'
-    isNull data, 'data'
+    Err.Throw.isUnspecified path, 'path'
+    Err.Throw.isUnspecified data, 'data'
 
     ref = @ref.child path
     ref.set data
@@ -33,8 +28,8 @@ class FirebaseContext
   # @param [String] path The partial path at which to store data
   # @param [Object] data The data to store
   push: (path, data) ->
-    isNull path, 'path'
-    isNull data, 'data'
+    Err.Throw.isUnspecified path, 'path'
+    Err.Throw.isUnspecified data, 'data'
 
     ref = @ref.child path
     ref.push data
@@ -43,7 +38,7 @@ class FirebaseContext
   #
   # @param [String] path The partial path at which to remove data
   remove: (path) ->
-    isNull path, 'path'
+    Err.Throw.isUnspecified path, 'path'
 
     ref = @ref.child path
     ref.remove()
@@ -53,8 +48,8 @@ class FirebaseContext
   # @param [String] path The partial path at which to store data
   # @param [Object] data The data to store
   update: (path, data) ->
-    isNull path, 'path'
-    isNull data, 'data'
+    Err.Throw.isUnspecified path, 'path'
+    Err.Throw.isUnspecified data, 'data'
 
     ref = @ref.child path
     ref.update data
@@ -64,7 +59,7 @@ class FirebaseContext
   # @param [String] path The partial path at which to store data
   # @param [Object] q The query parameters
   query: (path, q) ->
-    isNull path, 'path'
+    Err.Throw.isUnspecified path, 'path'
 
     ref = @ref.child path
 

@@ -1,6 +1,6 @@
 {
   "name": "sublime-net",
-  "version": "0.0.13",
+  "version": "0.0.16",
   "description": "Network providers",
   "main": "./out/index",
   "scripts": {
@@ -37,6 +37,7 @@
     "firebase": "^2.2.4",
     "lodash": "^3.8.0",
     "sublime-core": "0.0.20",
+    "sublime-error": "0.0.47",
     "when": "^3.7.3"
   }
 }
